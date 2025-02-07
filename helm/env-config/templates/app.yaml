@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: {{ $serviceName }}
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io
 spec:
   project: {{ "env-config.name" }}
   source:
@@ -14,9 +16,11 @@ spec:
       releaseName: {{ $serviceName }}
       valueFiles:
         - ../../config/services/{{ $serviceName }}.yaml
+      valuesObject:
+
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: dev
   syncPolicy:
     automated:
       prune: true
