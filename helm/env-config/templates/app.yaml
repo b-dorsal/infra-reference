@@ -18,7 +18,7 @@ spec:
         - ../../config/services/{{ $serviceName }}.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: dev
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
