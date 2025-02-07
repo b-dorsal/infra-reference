@@ -1,0 +1,5 @@
+services:
+  sample-service:
+    repos:
+      git: https://github.com/b-dorsal/sample-service.git
+      image: bdor528/sample-service
