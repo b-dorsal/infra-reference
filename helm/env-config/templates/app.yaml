@@ -5,7 +5,7 @@ metadata:
   name: {{ $serviceName }}
   namespace: argocd
 spec:
-  project: services
+  project: {{ .Release.name }}
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
     targetRevision: main
