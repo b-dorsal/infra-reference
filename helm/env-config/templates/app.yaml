@@ -5,7 +5,7 @@ metadata:
   name: {{ $serviceName }}
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io: test
+    argocd-image-updater.argoproj.io/image-list: {{ .service.repos.image }}
 spec:
   project: {{ "env-config.name" }}
   source:
