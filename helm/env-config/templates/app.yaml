@@ -23,11 +23,3 @@ spec:
       selfHeal: true
 ---
 {{- end }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: example-configmap
-  namespace: default
-data:
-  key1: {{ .Values.foo }}
-  key2: value2
