@@ -1,0 +1,8 @@
+projects:
+  infra-reference-dev: 
+    project-id: infra-reference-dev
+    type: dev
+
+apis:
+  - compute.googleapis.com
+  - container.googleapis.com
