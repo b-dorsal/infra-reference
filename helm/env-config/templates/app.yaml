@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
     targetRevision: main
-    path: infra-reference/helm/microservice
+    path: /helm/microservice
     helm:
       releaseName: {{ $serviceName }}
       # valueFiles:
