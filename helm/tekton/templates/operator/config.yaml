@@ -1,0 +1,22 @@
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonConfig
+metadata:
+  name: config
+spec:
+  targetNamespace: tekton-pipelines
+  targetNamespaceMetadata:
+    labels: {}
+    annotations: {}
+  pipeline:
+  dashboard:
+    readonly: false
+    options:
+      disabled: false
+  pruner:
+    disabled: false
+    schedule: "0 8 * * *"
+    resources:
+      - taskrun
+      - pipelinerun
+    keep: 3
+    prune-per-resource: true
