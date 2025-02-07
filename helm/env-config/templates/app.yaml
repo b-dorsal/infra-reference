@@ -5,8 +5,8 @@ metadata:
   name: {{ $serviceName }}
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: {{ $service.repos.image }}
-    argocd-image-updater.argoproj.io/bdor528-sample-service.update-strategy: latest
+    argocd-image-updater.argoproj.io/image-list: {{ $serviceName | replace "/" "--" }}={{ $service.repos.image }}
+    argocd-image-updater.argoproj.io/{{ $serviceName | replace "/" "--" }}.update-strategy: latest
 spec:
   project: {{ "env-config.name" }}
   source:
