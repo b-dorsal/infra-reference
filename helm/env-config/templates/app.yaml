@@ -16,7 +16,7 @@ spec:
       releaseName: {{ $serviceName }}
       valueFiles:
         - ../../config/services/{{ $serviceName }}.yaml
-      valuesObject:
+      # valuesObject:
 
   destination:
     server: https://kubernetes.default.svc
