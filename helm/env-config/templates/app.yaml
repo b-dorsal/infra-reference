@@ -3,16 +3,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ $serviceName }}
-  namespace: {{ $.Values.namespace }}
+  namespace: argocd
 spec:
-  project: {{ $.Values.project }}
+  project: services
   source:
-    repoURL: {{ $service.repoURL }}
-    targetRevision: {{ $service.targetRevision }}
-    path: {{ $service.path }}
+    repoURL: https://github.com/b-dorsal/infra-reference.git
+    targetRevision: main
+    path: infra-reference/helm/microservice
+    helm:
+      releaseName: {{ $serviceName }}
+      # valueFiles:
+      #   -
   destination:
-    server: {{ .Values.server }}
-    namespace: {{ $service.namespace }}
+    server: https://kubernetes.default.svc
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
