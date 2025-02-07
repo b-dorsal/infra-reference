@@ -1,0 +1,21 @@
+{{- range $serviceName, $service := .Values.services }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $serviceName }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  project: {{ $.Values.project }}
+  source:
+    repoURL: {{ $service.repoURL }}
+    targetRevision: {{ $service.targetRevision }}
+    path: {{ $service.path }}
+  destination:
+    server: {{ .Values.server }}
+    namespace: {{ $service.namespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+{{- end }}
