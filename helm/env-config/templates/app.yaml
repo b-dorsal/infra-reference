@@ -8,8 +8,8 @@ spec:
   project: {{ "env-config.name" }}
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
-    targetRevision: main
-    path: /helm/microservice
+    targetRevision: argo-setup
+    path: helm/microservice
     helm:
       releaseName: {{ $serviceName }}
       # valueFiles:
