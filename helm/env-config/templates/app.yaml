@@ -11,7 +11,7 @@ spec:
   project: {{ "env-config.name" }}
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
-    targetRevision: argo-setup
+    targetRevision: main
     path: helm/microservice
     helm:
       releaseName: {{ $serviceName }}
