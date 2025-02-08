@@ -8,7 +8,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: {{ $serviceName | replace "/" "--" }}={{ $service.repos.image }}
     argocd-image-updater.argoproj.io/{{ $serviceName | replace "/" "--" }}.update-strategy: latest
 spec:
-  project: {{ include "env-config.name" . }}.{{ .Values.env_name }}
+  project: {{ include ."env-config.name" . }}.{{ .Values.env_name }}
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
     targetRevision: main
