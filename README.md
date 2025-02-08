@@ -16,6 +16,7 @@ Putting together a ground up infra repo for fun, practice, and learning. I often
 - Terraform v1.9.8
 - Kubectl
 - gcloud
+- minikube (optional)
 
 ## Setup
 ### gcloud
@@ -52,6 +53,18 @@ terraform destroy
 Finally update `config/config.infra.yaml` 
 Set `project.infra-reference-dev.project_id` to your project id.
 
+### Minikube
+
+For local development and cost savings, you can use minikube instead
+
+```sh
+minikube start --driver=docker --profile=infra-reference-dev
+```
+
+```sh
+minikube stop --profile=infra-reference-dev
+```
+
 # Stack
 
 ## Traefik
@@ -67,12 +80,17 @@ Install Argo
 cd helm
 helm repo add argo-cd https://argoproj.github.io/argo-helm  
 helm dep update argo-cd/
-helm install argo-cd argo-cd/
+helm install argo-cd argo-cd/ --namespace argocd --create-namespace
 ```
 Verify the install
 ```sh
 kubectl port-forward svc/argo-cd-argocd-server 8080:443
 kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+Install Argo Image Updater
+```sh
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
 ```
 
 ## Grafana OSS

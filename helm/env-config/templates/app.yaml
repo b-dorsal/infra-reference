@@ -3,19 +3,28 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ $serviceName }}
-  namespace: {{ $.Values.namespace }}
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: {{ $serviceName | replace "/" "--" }}={{ $service.repos.image }}
+    argocd-image-updater.argoproj.io/{{ $serviceName | replace "/" "--" }}.update-strategy: latest
 spec:
-  project: {{ $.Values.project }}
+  project: {{ "env-config.name" }}
   source:
-    repoURL: {{ $service.repoURL }}
-    targetRevision: {{ $service.targetRevision }}
-    path: {{ $service.path }}
+    repoURL: https://github.com/b-dorsal/infra-reference.git
+    targetRevision: main
+    path: helm/microservice
+    helm:
+      releaseName: {{ $serviceName }}
+      valueFiles:
+        - ../../config/services/{{ $serviceName }}.yaml
   destination:
-    server: {{ .Values.server }}
-    namespace: {{ $service.namespace }}
+    server: https://kubernetes.default.svc
+    namespace: dev
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 ---
 {{- end }}
