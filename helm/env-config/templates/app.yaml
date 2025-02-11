@@ -42,7 +42,7 @@ spec:
     path: helm/tekton
     helm:
       releaseName: tekton
-      valueObject:
+      valuesObject:
         env_name: {{ .Values.env_name }}
   destination:
     server: https://kubernetes.default.svc
