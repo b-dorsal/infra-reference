@@ -3,4 +3,4 @@ kind: TektonPipeline
 metadata:
   name: pipeline
 spec:
-  targetNamespace: tekton-pipelines-{{ .Values.env_name }}
+  targetNamespace: tekton-pipelines

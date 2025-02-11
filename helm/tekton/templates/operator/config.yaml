@@ -3,7 +3,7 @@ kind: TektonConfig
 metadata:
   name: config
 spec:
-  targetNamespace: tekton-pipelines-{{ .Values.env_name }}
+  targetNamespace: tekton-pipelines
   targetNamespaceMetadata:
     labels: {}
     annotations: {}
