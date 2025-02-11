@@ -61,12 +61,27 @@ For local development and cost savings, you can use minikube instead
 minikube start --driver=docker --profile=infra-reference-dev
 ```
 
+Enable the Ingress Add-On
+```sh
+minikube addons enable ingress --profile=infra-reference-dev
+```
+
 ```sh
 minikube stop --profile=infra-reference-dev
 ```
 
 ### Traefik
 Docs: https://doc.traefik.io/traefik/getting-started/install-traefik/
+
+Values: https://github.com/traefik/traefik-helm-chart
+
+This is a cluster-wide ingress controller install.
+```sh
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+helm install traefik traefik/traefik --namespace traefik --create-namespace
+```
+
 
 ### Tekton
 
@@ -80,6 +95,8 @@ kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/previou
 ### Argo CD
 
 Docs: https://argo-cd.readthedocs.io/en/stable/getting_started/
+
+Values: https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml
 
 Install Argo
 ```sh
