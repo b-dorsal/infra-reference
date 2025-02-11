@@ -42,8 +42,6 @@ spec:
     path: helm/tekton
     helm:
       releaseName: tekton
-      # valueFiles:
-      #   - ../../config/services/{{ $serviceName }}.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
