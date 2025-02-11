@@ -28,7 +28,7 @@ spec:
       - CreateNamespace=true
 ---
 {{- end }}
-Tekton
+# Tekton
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
