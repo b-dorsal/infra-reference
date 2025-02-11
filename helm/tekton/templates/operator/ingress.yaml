@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tekton
+  namespace: tekton-pipelines
   annotations:
     kubernetes.io/ingress.class: "traefik"
 spec:
@@ -11,5 +12,6 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: tekton-dashboard
-          servicePort: 9097
+          service: 
+            name: tekton-dashboard
+            port: 9097
