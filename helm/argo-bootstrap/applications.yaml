@@ -1,4 +1,6 @@
 # One application per environment we want to deploy
+
+# DEV ENVIRONMENT
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
@@ -26,3 +28,4 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
+---

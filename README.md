@@ -65,14 +65,11 @@ minikube start --driver=docker --profile=infra-reference-dev
 minikube stop --profile=infra-reference-dev
 ```
 
-# Stack
-
-## Traefik
+### Traefik
 Docs: https://doc.traefik.io/traefik/getting-started/install-traefik/
 
-## Argo CD
+### Argo CD
 
-### Install
 Docs: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 Install Argo
