@@ -32,16 +32,18 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tekton-{{ $.Values.env_name }}
+  name: tekton-{{ .Values.env_name }}
   namespace: argocd
 spec:
-  project: cicd-{{ $.Values.env_name }}
+  project: cicd-{{ .Values.env_name }}
   source:
     repoURL: https://github.com/b-dorsal/infra-reference.git
     targetRevision: main
     path: helm/tekton
     helm:
       releaseName: tekton
+      valueObject:
+        env_name: {{ .Values.env_name }}
   destination:
     server: https://kubernetes.default.svc
     namespace: dev

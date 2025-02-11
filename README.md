@@ -68,6 +68,15 @@ minikube stop --profile=infra-reference-dev
 ### Traefik
 Docs: https://doc.traefik.io/traefik/getting-started/install-traefik/
 
+### Tekton
+
+Docs: https://tekton.dev/docs/operator/
+
+Install Tekton Operator
+```sh
+kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/previous/v0.74.1/release.yaml
+```
+
 ### Argo CD
 
 Docs: https://argo-cd.readthedocs.io/en/stable/getting_started/
@@ -99,11 +108,7 @@ kubectl apply -f applications.yaml -n argocd
 ## Grafana OSS
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 
-## Tekton
 
-### Operator Install
-
-Docs: https://tekton.dev/docs/operator/
 
 ```sh
 kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/latest/release.yaml
