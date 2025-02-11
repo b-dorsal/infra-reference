@@ -93,6 +93,12 @@ Install Argo Image Updater
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
 ```
 
+Bootstrap Argo with our dev environment
+```sh
+kubectl apply -f projects.yaml -n argocd
+kubectl apply -f applications.yaml -n argocd
+```
+
 ## Grafana OSS
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 

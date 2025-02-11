@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: {{ include "env-config.name" . }}.{{ .Values.env_name }}
+  name: services-{{ .Values.env_name }}
   namespace: argocd
 spec:
   clusterResourceWhitelist:

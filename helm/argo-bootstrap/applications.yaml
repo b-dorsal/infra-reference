@@ -1,0 +1,28 @@
+# One application per environment we want to deploy
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: services-dev
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: dev-infra
+  source:
+    path: helm/env-config
+    repoURL: https://github.com/b-dorsal/infra-reference.git
+    targetRevision: main
+    helm:
+      releaseName: env-config
+      valueFiles:
+        - ../../config/config.services.yaml
+      valuesObject:
+        env_name: dev
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
