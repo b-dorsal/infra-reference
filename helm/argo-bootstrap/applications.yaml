@@ -8,7 +8,7 @@ spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
-  project: dev-infra
+  project: infra-dev
   source:
     path: helm/env-config
     repoURL: https://github.com/b-dorsal/infra-reference.git
