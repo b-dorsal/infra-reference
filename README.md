@@ -92,6 +92,16 @@ Install Tekton Operator
 kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/previous/v0.74.1/release.yaml
 ```
 
+```sh
+kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n tekton-pipelines
+```
+
+```sh
+kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/docker-build/0.1/raw -n cicd
+kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n cicd
+```
+
+
 ### Argo CD
 
 Docs: https://argo-cd.readthedocs.io/en/stable/getting_started/

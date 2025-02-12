@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-pipeline-
+  namespace: dev
+spec:
+  pipelineRef:
+    name: build-pipeline
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: serviceName
+      value: "sample-service"
+  workspaces:
+    - name: working-dir
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce 
+          resources:
+            requests:
+              storage: 1Gi

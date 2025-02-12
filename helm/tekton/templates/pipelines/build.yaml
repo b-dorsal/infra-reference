@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-pipeline
+  namespace: dev
+spec:
+  params:
+    - name: serviceName
+      type: string
+      description: "Service to build"
+    - name: branch
+      type: string
+      default: main
+      description: "Branch to build"
+  workspaces:
+    - name: working-dir
+      description: "A workspace for the pipeline"
+  tasks:
+    - name: clone-repo
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: https://github.com/b-dorsal/$(params.serviceName).git
+        - name: revision
+          value: $(params.branch)
+        - name: subdirectory
+          value: ""
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output
+          workspace: working-dir
+    - name: docker-build
+      taskRef:
+        name: docker-build
+      params:
+        - name: insecure_registry
+          value: docker.io
+        - name: image
+          value: docker.io/bdor528/$(params.serviceName):$(tasks.clone-repo.results.commit)
+      workspaces:
+        - name: source
+          workspace: working-dir
