@@ -76,6 +76,8 @@ Docs: https://doc.traefik.io/traefik/getting-started/install-traefik/
 Values: https://github.com/traefik/traefik-helm-chart
 
 This is a cluster-wide ingress controller install.
+
+`Todo: This needs to be moved to Argo`
 ```sh
 helm repo add traefik https://traefik.github.io/charts
 helm repo update
@@ -89,11 +91,7 @@ Docs: https://tekton.dev/docs/operator/
 
 Install Tekton Operator
 ```sh
-kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/previous/v0.74.1/release.yaml
-```
-
-```sh
-kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n tekton-pipelines
+kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/latest/release.yaml
 ```
 
 ```sh
@@ -101,6 +99,7 @@ kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/docker-build
 kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n cicd
 ```
 
+`Todo: Tekton needs to auth to push to dockerhub. I want to move this to Artifact Registry when I have time.`
 
 ### Argo CD
 
@@ -135,14 +134,48 @@ kubectl apply -f applications.yaml -n argocd
 ## Grafana OSS
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 
+`Todo: This needs to be moved to Argo`
 
+`Todo: we need to configure this more to persist data`
+```sh
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+kubectl create namespace monitoring
+helm install grafana grafana/grafana --namespace monitoring
+```
+
+Install Prometheus
+
+`Todo: this needs to be be added to argo and coded scrape configs`
+```sh
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
+```
+
+Add prometheus scrape config
+```sh
+scrape_configs:
+  - job_name: 'tekton'
+    static_configs:
+      - targets: 
+        - tekton-pipelines-controller.tekton-pipelines.svc.cluster.local:9090
+```
+
+Setup Loki for log collection
+Docs: https://grafana.com/blog/2023/04/12/how-to-collect-and-query-kubernetes-logs-with-grafana-loki-grafana-and-grafana-agent/
+
+`Todo: Continue this setup when we code the backlog. I dont want to setup the log storage yet.`
 
 ```sh
-kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/latest/release.yaml
+kubectl create ns loki
 ```
+
+In Grafana UI add prometheus datasource at `http://prometheus-server.monitoring.svc.cluster.local`
 
 # Plans
 
 - Build out microservice chart
-- 
-
+- Improve sample-service capabilities for demonstration
+- Move secrets to GCP Secret Manager
+- Setup Grafana & metrics collection
