@@ -35,8 +35,8 @@ Initialize Terraform with the state files bucket name
 ```sh
 cd terraform
 terraform init \
--backend-config="bucket=bdor528-infra-reference-dev" \ 
--backend-config="prefix=terraform/state/"
+--backend-config="bucket=bdor528-infra-reference-dev" \ 
+--backend-config="prefix=terraform/state/"
 ```
 
 ```sh
@@ -52,6 +52,12 @@ terraform destroy
 
 Finally update `config/config.infra.yaml` 
 Set `project.infra-reference-dev.project_id` to your project id.
+
+Auth to the cluster with GCloud
+```sh
+gcloud container clusters get-credentials CLUSTER_NAME --region=COMPUTE_REGION
+```
+
 
 ### Minikube
 
@@ -126,15 +132,16 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argoc
 ```
 
 Bootstrap Argo with our dev environment
+
+`To-do: this needs to be a chart`
 ```sh
+cd helm/argo-bootstrap
 kubectl apply -f projects.yaml -n argocd
 kubectl apply -f applications.yaml -n argocd
 ```
 
 ## Grafana OSS
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
-
-`Todo: This needs to be moved to Argo`
 
 `Todo: we need to configure this more to persist data`
 ```sh
@@ -146,7 +153,7 @@ helm install grafana grafana/grafana --namespace monitoring
 
 Install Prometheus
 
-`Todo: this needs to be be added to argo and coded scrape configs`
+`Todo: coded scrape configs`
 ```sh
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
