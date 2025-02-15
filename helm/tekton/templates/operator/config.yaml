@@ -7,11 +7,42 @@ spec:
   targetNamespaceMetadata:
     labels: {}
     annotations: {}
+  chain:
+    disabled: true
   pipeline:
+    options:
+      deployments:
+        tekton-pipelines-controller:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: tekton-pipelines-controller
+                    resources:
+                      limits:
+                        cpu: 250m
+                        memory: 500Mi
+                      requests:
+                        cpu: 250m
+                        memory: 100Mi
   dashboard:
     readonly: false
     options:
       disabled: false
+      deployments:
+        tekton-dashboard:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: tekton-dashboard
+                    resources:
+                      limits:
+                        cpu: 250m
+                        memory: 500Mi
+                      requests:
+                        cpu: 250m
+                        memory: 100Mi
   pruner:
     disabled: false
     schedule: "0 8 * * *"
