@@ -81,16 +81,6 @@ Docs: https://doc.traefik.io/traefik/getting-started/install-traefik/
 
 Values: https://github.com/traefik/traefik-helm-chart
 
-This is a cluster-wide ingress controller install.
-
-`Todo: This needs to be moved to Argo`
-```sh
-helm repo add traefik https://traefik.github.io/charts
-helm repo update
-helm install traefik traefik/traefik --namespace traefik --create-namespace
-```
-
-
 ### Tekton
 
 Docs: https://tekton.dev/docs/operator/
@@ -105,7 +95,7 @@ kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/docker-build
 kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n cicd
 ```
 
-`Todo: Tekton needs to auth to push to dockerhub. I want to move this to Artifact Registry when I have time.`
+`Todo: Tekton needs to auth to push to dockerhub or workload identity to push to Artifact Registry.`
 
 ### Argo CD
 
@@ -144,21 +134,11 @@ kubectl apply -f applications.yaml -n argocd
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 
 `Todo: we need to configure this more to persist data`
-```sh
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo update
-kubectl create namespace monitoring
-helm install grafana grafana/grafana --namespace monitoring
-```
+
 
 Install Prometheus
 
 `Todo: coded scrape configs`
-```sh
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
-```
 
 Add prometheus scrape config
 ```sh
