@@ -24,7 +24,7 @@ spec:
                         memory: 500Mi
                       requests:
                         cpu: 250m
-                        memory: 100Mi
+                        memory: 500Mi
   dashboard:
     readonly: false
     options:
@@ -42,7 +42,7 @@ spec:
                         memory: 500Mi
                       requests:
                         cpu: 250m
-                        memory: 100Mi
+                        memory: 500Mi
   pruner:
     disabled: false
     schedule: "0 8 * * *"
