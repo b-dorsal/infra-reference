@@ -103,19 +103,6 @@ Docs: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 Values: https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml
 
-Install Argo
-```sh
-cd helm
-helm repo add argo-cd https://argoproj.github.io/argo-helm  
-helm dep update argo-cd/
-helm install argo-cd argo-cd/ --namespace argocd --create-namespace
-```
-Verify the install
-```sh
-kubectl port-forward svc/argo-cd-argocd-server 8080:443
-kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-```
-
 Install Argo Image Updater
 ```sh
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
