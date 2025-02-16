@@ -92,6 +92,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
+  valuesObject:
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-server.monitoring.svc.cluster.local
+          access: proxy
+          isDefault: true
   syncPolicy:
     automated:
       prune: true
@@ -115,6 +125,14 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
+  valuesObject:
+    serverFiles:
+      prometheus.yml:
+        scrape_configs:
+          - job_name: 'tekton'
+            static_configs:
+              - targets: 
+                - 'tekton-pipelines-controller.tekton-pipelines.svc.cluster.local:9090'
   syncPolicy:
     automated:
       prune: true

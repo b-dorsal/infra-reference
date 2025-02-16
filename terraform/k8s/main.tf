@@ -1,0 +1,9 @@
+locals {
+  config          = yamldecode(file("${path.module}/../../config/config.infra.yaml"))
+  services_config = yamldecode(file("${path.module}/../../config/config.services.yaml"))
+  services        = local.services_config.services
+  project_id      = local.config.projects["infra-reference-${terraform.workspace}"].project-id
+  default_region  = "us-central1"
+  env_type        = local.config.projects["infra-reference-${terraform.workspace}"].type
+}
+

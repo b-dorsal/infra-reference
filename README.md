@@ -4,12 +4,20 @@ My infra reference repository for learning and testing
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [ToDo](#todo)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
-- [Stack](#stack)
 
 ## Introduction
-Putting together a ground up infra repo for fun, practice, and learning. I often don't get the chance to do things start to finish in a team environment, so I'd like to experience every aspect of configuring an infra stack. I'm hoping to complete the majority of this in a one-week span.
+Putting together a ground up infra repo for fun, practice, and learning. I often don't get the chance to do things start to finish in a team environment, so I'd like to experience every aspect of configuring an infra stack. I'm hoping to complete the majority of this in a ~~one-week~~ two-week span.
+
+## Todo
+- Build out microservice chart
+- Improve sample-service capabilities for demonstration
+- Move secrets to GCP Secret Manager
+- Setup Loki for logs collection
+- Tekton needs to auth to push to dockerhub or workload identity to push to Artifact Registry.
+- Grafana needs persistent data
 
 ## Prerequisites
 - Helm v3.17.0
@@ -33,15 +41,15 @@ Create a bucket for Terraform state files
 Initialize Terraform with the state files bucket name
 
 ```sh
-cd terraform
-terraform init \
---backend-config="bucket=bdor528-infra-reference-dev" \ 
---backend-config="prefix=terraform/state/"
+cd terraform/infra
+terraform init
+
+cd terraform/k8s
+terraform init
 ```
 
 ```sh
-terraform workspace new infra-reference-dev
-terraform workspace select infra-reference-dev
+terraform workspace select dev
 ```
 ```sh
 terraform plan
@@ -55,7 +63,7 @@ Set `project.infra-reference-dev.project_id` to your project id.
 
 Auth to the cluster with GCloud
 ```sh
-gcloud container clusters get-credentials CLUSTER_NAME --region=COMPUTE_REGION
+gcloud container clusters get-credentials infra-reference-dev --region=us-central1 --project=infra-reference-dev
 ```
 
 
@@ -90,10 +98,6 @@ Install Tekton Operator
 kubectl apply -f https://storage.googleapis.com/tekton-releases/operator/latest/release.yaml
 ```
 
-```sh
-kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/docker-build/0.1/raw -n cicd
-kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/git-clone/0.9/raw -n cicd
-```
 
 `Todo: Tekton needs to auth to push to dockerhub or workload identity to push to Artifact Registry.`
 
@@ -108,48 +112,22 @@ Install Argo Image Updater
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
 ```
 
-Bootstrap Argo with our dev environment
 
-`To-do: this needs to be a chart`
-```sh
-cd helm/argo-bootstrap
-kubectl apply -f projects.yaml -n argocd
-kubectl apply -f applications.yaml -n argocd
-```
-
-## Grafana OSS
+### Grafana OSS
 Docs: https://grafana.com/docs/grafana/latest/setup-grafana/installation/helm/
 
 `Todo: we need to configure this more to persist data`
 
 
-Install Prometheus
+### Prometheus
 
-`Todo: coded scrape configs`
+Values: https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml
 
-Add prometheus scrape config
-```sh
-scrape_configs:
-  - job_name: 'tekton'
-    static_configs:
-      - targets: 
-        - tekton-pipelines-controller.tekton-pipelines.svc.cluster.local:9090
-```
+
+### Loki
 
 Setup Loki for log collection
+
 Docs: https://grafana.com/blog/2023/04/12/how-to-collect-and-query-kubernetes-logs-with-grafana-loki-grafana-and-grafana-agent/
 
 `Todo: Continue this setup when we code the backlog. I dont want to setup the log storage yet.`
-
-```sh
-kubectl create ns loki
-```
-
-In Grafana UI add prometheus datasource at `http://prometheus-server.monitoring.svc.cluster.local`
-
-# Plans
-
-- Build out microservice chart
-- Improve sample-service capabilities for demonstration
-- Move secrets to GCP Secret Manager
-- Setup Grafana & metrics collection
